@@ -42,7 +42,7 @@ function Edit-ESXiISO
 ##############################
 
 accepteula
-
+clearpart --firstdisk=local --overwritevmfs
 install --firstdisk=local --overwritevmfs
 
 #Set password, either encrypted or unencrypted

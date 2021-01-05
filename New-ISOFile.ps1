@@ -72,14 +72,14 @@ public class ISOFile
         $Stream.Position = 8
         $Stream.Write($bytes)
       }
-      elseif ($BootFile -match "efi")
+      ($Boot = New-Object -ComObject IMAPI2FS.BootOptions).AssignBootImage($Stream) 
+      if ($BootFile -match "efi")
       {
         #Setting PlatformId to match EFI /EF
         $Boot.PlatformId= 4 #4 for EF, 0 for BIOS
       }
       # Using ISO9660 when bootfile is specified, was unable to get it working with UDF
       $Image.FileSystemsToCreate = 1 #FsiFileSystemISO9660
-      ($Boot = New-Object -ComObject IMAPI2FS.BootOptions).AssignBootImage($Stream) 
     } 
     if (!($Target = New-Item -Path $Path -ItemType File -Force:$Force -ErrorAction SilentlyContinue)) { Write-Error -Message "Cannot create file $Path. Use -Force parameter to overwrite if the target file already exists."; break } 
   }  
